@@ -4,7 +4,7 @@ Bir veteriner kliniğinin kendi işlerini yönetebildiği bir Rest API projesidi
 ## Kullanılan Teknolojiler
 Java, Spring Boot, PostgreSQL, Swagger, IntelliJ IDE
 
-
+![vetUML](src/images/VeterinaryUML.png)
 
 ## Endpointler
 
