@@ -74,6 +74,11 @@ public class VaccineController {
     public ResultData<List<VaccineResponse>> getVaccineByAnimal(@RequestParam Long id) {
         return this.vaccineService.getByAnimalId(id);
     }
+    @GetMapping("/searchByAnimalName")
+    @ResponseStatus(HttpStatus.OK)
+    public ResultData<List<VaccineResponse>> getVaccineByAnimalName(@RequestParam String name) {
+        return this.vaccineService.getByAnimalName(name);
+    }
     @GetMapping("/searchByDateRange")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<List<VaccineResponse>> getByProtectionDateBetween(

@@ -1,6 +1,7 @@
 package com.java.veterinary.dto.response;
 
 import com.java.veterinary.entity.Appointment;
+import com.java.veterinary.entity.Vaccine;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,5 +15,6 @@ public class ReportResponse {
     private long id;
     private String title;
     private double price;
-    private List<Appointment> appointmentList;
+    private Appointment appointment;
+    private List<Vaccine> vaccineList;
 }

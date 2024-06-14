@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -32,14 +33,14 @@ public class DoctorManager implements IDoctorService {
         if (isDoctorExist.isEmpty()) {
             return this.doctorRepo.save(doctor);
         }
-        throw new RuntimeException("Bu Doktor Sistemde Kayıtlı");
+        throw new RuntimeException("This doctor is already registered in the system.");
     }
 
     @Override
     public Doctor update(Doctor doctor) {
         Optional<Doctor> isDoctorExist = doctorRepo.findById(doctor.getId());
         if (isDoctorExist.isEmpty()){
-            throw new RuntimeException("Doktor Sistemde Bulunamadı");
+            throw new RuntimeException("The doctor could not be found in the system.");
         }
         this.get(doctor.getId());
         return this.doctorRepo.save(doctor);
@@ -61,5 +62,10 @@ public class DoctorManager implements IDoctorService {
             doctorRepo.delete(isDoctorExist.get());
             return Msg.OK;
         }
+    }
+
+    @Override
+    public List<Doctor> getDoctorByName(String name) {
+        return doctorRepo.findByNameContainingIgnoreCase(name);
     }
 }

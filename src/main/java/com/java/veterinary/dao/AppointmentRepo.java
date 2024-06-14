@@ -21,4 +21,6 @@ public interface AppointmentRepo extends JpaRepository<Appointment, Long> {
     //tarih aralığına ve doktora göre filtreleme:
     List<Appointment> findByDoctorIdAndAppointmentDateBetween (long doctorId, LocalDateTime startDate, LocalDateTime finishDate);
 
+    List<Appointment> findByDoctorNameAndAppointmentDateBetween (String doctorName, LocalDateTime startDate, LocalDateTime finishDate);
+    List<Appointment> findByAnimalNameAndAppointmentDateBetween (String animalName, LocalDateTime startDate, LocalDateTime finishDate);
 }

@@ -13,13 +13,14 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class AnimalSaveRequest {
 
-    @NotNull (message = "İsim boş bırakılamaz")
+    @NotNull (message = "Name is required")
     private String name;
     private String species;
     private String breed;
     private String gender;
     private String colour;
     private LocalDate dateOfBirth;
+    @NotNull (message = "Please choose a customer")
     private Customer customer;
 
 }

@@ -3,7 +3,10 @@ server.tomcat.accesslog.enabled=true
 
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
-spring.jpa.open-in-view=false
+#spring.jpa.open-in-view=false
+
+spring.jpa.open-in-view=true
+
 
 spring.datasource.url=jdbc:postgresql://ep-flat-shadow-a2r29yd2.eu-central-1.pg.koyeb.app/koyebdb
 spring.datasource.username=koyeb-adm

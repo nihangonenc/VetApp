@@ -32,14 +32,14 @@ public class ReportManager implements IReportService {
         if (isReportExist.isEmpty()) {
             return this.reportRepo.save(report);
         }
-        throw new RuntimeException("Bu Doktor Sistemde Kayıtlı");
+        throw new RuntimeException("This report is already registered in the system.");
     }
 
     @Override
     public Report update(Report report) {
         Optional<Report> isReportExist = reportRepo.findById(report.getId());
         if (isReportExist.isEmpty()){
-            throw new RuntimeException("Rapor Sistemde Bulunamadı");
+            throw new RuntimeException("The report could not be found in the system.");
         }
         this.get(report.getId());
         return this.reportRepo.save(report);

@@ -42,22 +42,22 @@ public class AppointmentManager implements IAppointmentService {
     public Appointment save(Appointment a) {  //DEĞERLENDİRME FORMU 17-18
 
         if (a.getAppointmentDate().getMinute() != 0){
-            throw new RuntimeException("Saat Başı Randevu Verilebilmektedir.");
+            throw new RuntimeException("Appointments can be scheduled on the hour.");
         }
 
         Optional<Appointment> appointmentExist = appointmentRepo.findByAppointmentDateAndAnimalIdAndDoctorId(a.getAppointmentDate(), a.getAnimal().getId(), a.getDoctor().getId());
         if (appointmentExist.isPresent()) {
-            throw new RuntimeException("Bu Randevu Sistemde Kayıtlı");
+            throw new RuntimeException("This appointment is already registered in the system.");
         }
 
         Optional<Appointment> appointmentExists = appointmentRepo.findByDoctorIdAndAppointmentDate(a.getDoctor().getId(), a.getAppointmentDate());
         if (appointmentExists.isPresent()) {
-            throw new RuntimeException("Doktorun Bu Randevu Saati Dolu");
+            throw new RuntimeException("The doctor is not available at this appointment time.");
         }
 
         Optional<AvailableDate> availableDateExist = availableDateService.findByAvailableDateAndDoctorId(a.getAppointmentDate().toLocalDate(), a.getDoctor().getId());
         if (availableDateExist.isEmpty()) {
-            throw new RuntimeException("Doktor Bu Gün Çalışmıyor");
+            throw new RuntimeException("The doctor is not working today.");
         }
 
         return this.appointmentRepo.save(a);
@@ -68,7 +68,7 @@ public class AppointmentManager implements IAppointmentService {
     public Appointment update(Appointment appointment) {
         Optional<Appointment> isAppointmentExist = appointmentRepo.findById(appointment.getId());
         if (isAppointmentExist.isEmpty()) {
-            throw new RuntimeException("Randevu Sistemde Bulunamadı");
+            throw new RuntimeException("The appointment could not be found in the system.");
         }
         this.get(appointment.getId());
         return this.appointmentRepo.save(appointment);
@@ -111,6 +111,34 @@ public class AppointmentManager implements IAppointmentService {
             (long animalId, LocalDateTime startDate, LocalDateTime finishDate) {
         List<Appointment> appointments =
                 this.appointmentRepo.findByAnimalIdAndAppointmentDateBetween(animalId, startDate, finishDate);
+        List<AppointmentResponse> appointmentResponse = appointments.stream().
+                map(appointment -> this.modelMapper.forResponse().map(appointment, AppointmentResponse.class)).
+                collect(Collectors.toList());
+        if (appointments.isEmpty()) {
+            return ResultHelper.notFound(appointmentResponse);
+        } else {
+            return ResultHelper.success(appointmentResponse);
+        }
+    }
+
+    @Override
+    public ResultData<List<AppointmentResponse>> getByDoctorNameAndDate(String doctorName, LocalDateTime startDate, LocalDateTime finishDate) {
+            List<Appointment> appointments =
+                    this.appointmentRepo.findByDoctorNameAndAppointmentDateBetween(doctorName, startDate, finishDate);
+            List<AppointmentResponse> appointmentResponse = appointments.stream().
+                    map(appointment -> this.modelMapper.forResponse().map(appointment, AppointmentResponse.class)).
+                    collect(Collectors.toList());
+            if (appointments.isEmpty()) {
+                return ResultHelper.notFound(appointmentResponse);
+            } else {
+                return ResultHelper.success(appointmentResponse);
+            }
+    }
+
+    @Override
+    public ResultData<List<AppointmentResponse>> getByAnimalNameAndDate(String animalName, LocalDateTime startDate, LocalDateTime finishDate) {
+        List<Appointment> appointments =
+                this.appointmentRepo.findByAnimalNameAndAppointmentDateBetween(animalName, startDate, finishDate);
         List<AppointmentResponse> appointmentResponse = appointments.stream().
                 map(appointment -> this.modelMapper.forResponse().map(appointment, AppointmentResponse.class)).
                 collect(Collectors.toList());

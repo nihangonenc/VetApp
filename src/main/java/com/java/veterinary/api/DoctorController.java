@@ -7,13 +7,19 @@ import com.java.veterinary.core.result.ResultData;
 import com.java.veterinary.core.utilies.ResultHelper;
 import com.java.veterinary.dto.request.doctor.DoctorSaveRequest;
 import com.java.veterinary.dto.request.doctor.DoctorUpdateRequest;
+import com.java.veterinary.dto.response.AnimalResponse;
 import com.java.veterinary.dto.response.CursorResponse;
 import com.java.veterinary.dto.response.DoctorResponse;
+import com.java.veterinary.entity.Animal;
 import com.java.veterinary.entity.Doctor;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import javax.print.Doc;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/v1/doctors")
@@ -65,6 +71,21 @@ public class DoctorController {
         Page<DoctorResponse> doctorResponsePage = doctorPage
                 .map(doctor -> this.modelMapper.forResponse().map(doctor, DoctorResponse.class));
         return ResultHelper.cursor(doctorResponsePage);
+    }
+    @GetMapping("/searchByName")
+    @ResponseStatus(HttpStatus.OK)
+    public ResultData<List<DoctorResponse>> getDoctorByName(@RequestParam String name) {
+        List<Doctor> doctors = this.doctorService.getDoctorByName(name);
+        List<DoctorResponse> doctorResponse = doctors.stream()
+                .map(doctor -> this.modelMapper.forResponse().map(doctor, DoctorResponse.class))
+                .collect(Collectors.toList());
+
+        if (doctors.isEmpty()) {
+            return ResultHelper.notFound(doctorResponse);
+        }else {
+            return ResultHelper.success(doctorResponse);
+        }
+
     }
 
 }

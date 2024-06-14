@@ -11,6 +11,7 @@ import java.util.Optional;
 @Repository
 public interface VaccineRepo extends JpaRepository<Vaccine, Long> {
     List<Vaccine> findByAnimalId(Long id); //bir hayvana ait tüm aşılar listelensin
+    List<Vaccine> findByAnimalNameContainingIgnoreCase(String name);
     List <Vaccine> findByProtectionStartDateBetween(LocalDate startDate, LocalDate finishDate);
     Optional<Vaccine> findByNameAndCodeAndAnimalIdAndProtectionFinishDateGreaterThanEqual (String name, String code, Long id, LocalDate protectionStartDate);
 }

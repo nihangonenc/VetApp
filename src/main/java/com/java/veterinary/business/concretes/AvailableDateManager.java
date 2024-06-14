@@ -32,14 +32,14 @@ public class AvailableDateManager implements IAvailableDateService {
         if (isDateExist.isEmpty()) {
             return this.availableDateRepo.save(availableDate);
         }
-        throw new RuntimeException("Bu Gün Sistemde Kayıtlı");
+        throw new RuntimeException("This available date is already registered in the system.");
     }
 
     @Override
     public AvailableDate update(AvailableDate availableDate) {
         Optional<AvailableDate> isDateExist = availableDateRepo.findById(availableDate.getId());
         if (isDateExist.isEmpty()){
-            throw new RuntimeException("Gün Sistemde Bulunamadı");
+            throw new RuntimeException("The available date could not be found in the system.");
         }
         this.get(availableDate.getId());
         return this.availableDateRepo.save(availableDate);

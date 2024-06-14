@@ -14,10 +14,10 @@ import java.util.List;
 @NoArgsConstructor
 public class CustomerSaveRequest {
 
-    @NotNull (message = "İsim boş bırakılamaz")
+    @NotNull (message = "Name is required")
     private String name;
     private String phone;
-    @Email
+    @Email (message = "Please enter a valid e-mail")
     private String mail;
     private String address;
     private String city;

@@ -37,6 +37,7 @@ public class AnimalController {
         this.animalService.save(saveAnimal);
         return ResultHelper.created(this.modelMapper.forResponse().map(saveAnimal, AnimalResponse.class));
     }
+
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<AnimalResponse> get(@PathVariable("id") int id) {
@@ -44,6 +45,7 @@ public class AnimalController {
         AnimalResponse animalResponse = this.modelMapper.forResponse().map(animal, AnimalResponse.class);
         return ResultHelper.success(animalResponse);
     }
+
     @PutMapping()
     @ResponseStatus(HttpStatus.OK)
     public ResultData<AnimalResponse> update(@Valid @RequestBody AnimalUpdateRequest animalUpdateRequest){
@@ -52,12 +54,14 @@ public class AnimalController {
         this.animalService.update(updateAnimal);
         return ResultHelper.success(this.modelMapper.forResponse().map(updateAnimal, AnimalResponse.class));
     }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Result delete(@PathVariable("id") int id){
         this.animalService.delete(id);
         return ResultHelper.ok();
     }
+
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
     public ResultData<CursorResponse<AnimalResponse>> cursor(
@@ -69,6 +73,7 @@ public class AnimalController {
                 .map(animal -> this.modelMapper.forResponse().map(animal, AnimalResponse.class));
         return ResultHelper.cursor(animalResponsePage);
     }
+
     @GetMapping("/searchByName")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<List<AnimalResponse>> getAnimalByName(@RequestParam String name) {
@@ -84,10 +89,24 @@ public class AnimalController {
         }
 
     }
+
     @GetMapping("/searchByCustomer")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<List<AnimalResponse>> getAnimalByCustomer(@RequestParam Long id) {
         List<Animal> animals = this.animalService.getAnimalByCustomer(id);
+        List<AnimalResponse> animalResponse = animals.stream()
+                .map(animal -> this.modelMapper.forResponse().map(animal, AnimalResponse.class))
+                .collect(Collectors.toList());
+        if (animals.isEmpty()) {
+            return ResultHelper.notFound(animalResponse);
+        }else {
+            return ResultHelper.success(animalResponse);
+        }
+    }
+    @GetMapping("/searchByCustomerName")
+    @ResponseStatus(HttpStatus.OK)
+    public ResultData<List<AnimalResponse>> getAnimalByCustomerName(@RequestParam String name) {
+        List<Animal> animals = this.animalService.getAnimalByCustomerName(name);
         List<AnimalResponse> animalResponse = animals.stream()
                 .map(animal -> this.modelMapper.forResponse().map(animal, AnimalResponse.class))
                 .collect(Collectors.toList());

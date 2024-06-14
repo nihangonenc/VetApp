@@ -32,14 +32,14 @@ public class CustomerManager implements ICustomerService {
         if (isCustomerExist.isEmpty()) {
             return this.customerRepo.save(customer);
         }
-        throw new RuntimeException("Bu Müşteri Sistemde Kayıtlı");
+        throw new RuntimeException("This customer is already registered in the system.");
     }
 
     @Override
     public Customer update(Customer customer) {
         Optional<Customer> isCustomerExist = customerRepo.findById(customer.getId());
         if (isCustomerExist.isEmpty()){
-            throw new RuntimeException("Müşteri Sistemde Bulunamadı");
+            throw new RuntimeException("The customer could not be found in the system.");
         }
         this.get(customer.getId());
         return this.customerRepo.save(customer);

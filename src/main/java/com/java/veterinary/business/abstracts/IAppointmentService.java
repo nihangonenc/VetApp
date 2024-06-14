@@ -17,4 +17,7 @@ public interface IAppointmentService {
 
     ResultData<List<AppointmentResponse>> getByDoctorAndDate (long doctorId, LocalDateTime startDate, LocalDateTime finishDate);
     ResultData<List<AppointmentResponse>> getByAnimalAndDate (long animalId, LocalDateTime startDate, LocalDateTime finishDate);
+
+    ResultData<List<AppointmentResponse>> getByDoctorNameAndDate (String doctorName, LocalDateTime startDate, LocalDateTime finishDate);
+    ResultData<List<AppointmentResponse>> getByAnimalNameAndDate (String animalName, LocalDateTime startDate, LocalDateTime finishDate);
 }

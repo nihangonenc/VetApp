@@ -3,6 +3,7 @@ package com.java.veterinary.dto.response;
 import com.java.veterinary.entity.Animal;
 import com.java.veterinary.entity.Doctor;
 
+import com.java.veterinary.entity.Report;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,4 +19,5 @@ public class AppointmentResponse {
     private LocalDateTime appointmentDate;
     private Animal animal;
     private Doctor doctor;
+    private Report report;
 }

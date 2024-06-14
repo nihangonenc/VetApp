@@ -13,4 +13,6 @@ public interface AnimalRepo extends JpaRepository<Animal, Long> {
     Optional<Animal> findByNameAndSpeciesAndDateOfBirth(String name, String species, LocalDate dateOfBirth);
     List<Animal> findByNameContainingIgnoreCase(String name); //İsme göre filtreleme
     List<Animal> findByCustomerId (Long id);
+    List<Animal> findByCustomerNameContainingIgnoreCase (String name);
+
 }

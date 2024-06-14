@@ -1,6 +1,8 @@
 package com.java.veterinary.dto.request.appointment;
 
 
+import com.java.veterinary.entity.Animal;
+import com.java.veterinary.entity.Doctor;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,6 +18,6 @@ public class AppointmentUpdateRequest {
     @Positive(message = "ID pozitif sayı olmalı")
     private long id;
     private LocalDateTime appointmentDate;
-    private Long animalId;
-    private Long doctorId;
+    private Animal animal;
+    private Doctor doctor;
 }

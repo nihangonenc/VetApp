@@ -32,14 +32,14 @@ public class AnimalManager implements IAnimalService {
         if (isAnimalExist.isEmpty()) {
             return this.animalRepo.save(animal);
         }
-        throw new RuntimeException("Bu Hayvan Sistemde Kayıtlı");
+        throw new RuntimeException("This animal is already registered in the system.");
     }
 
     @Override
     public Animal update(Animal animal) {
         Optional<Animal> isAnimalExist = animalRepo.findById(animal.getId());
         if (isAnimalExist.isEmpty()){
-            throw new RuntimeException("Hayvan Sistemde Bulunamadı");
+            throw new RuntimeException("The animal could not be found in the system.");
         }
         this.get(animal.getId());
         return this.animalRepo.save(animal);
@@ -69,5 +69,10 @@ public class AnimalManager implements IAnimalService {
     @Override
     public List<Animal> getAnimalByCustomer(Long id) { //hayvanları sahiplerine göre filtreleme  DEĞERLENDİRME FORMU 14
         return animalRepo.findByCustomerId(id);
+    }
+
+    @Override
+    public List<Animal> getAnimalByCustomerName(String name) {
+        return animalRepo.findByCustomerNameContainingIgnoreCase(name);
     }
 }

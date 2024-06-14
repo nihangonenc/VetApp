@@ -80,5 +80,19 @@ public class AppointmentController {
                                                                     @RequestParam LocalDateTime finishDate) {
         return this.appointmentService.getByAnimalAndDate(animalId,startDate,finishDate);
     }
+    @GetMapping("/searchByDoctorNameAndDate")
+    @ResponseStatus(HttpStatus.OK)
+    public ResultData<List<AppointmentResponse>> getByDoctorNameAndDate(@RequestParam String doctorName,
+                                                                    @RequestParam LocalDateTime startDate,
+                                                                    @RequestParam LocalDateTime finishDate) {
+        return this.appointmentService.getByDoctorNameAndDate(doctorName,startDate,finishDate);
+    }
+    @GetMapping("/searchByAnimalNameAndDate")
+    @ResponseStatus(HttpStatus.OK)
+    public ResultData<List<AppointmentResponse>> getByAnimalNameAndDate(@RequestParam String animalName,
+                                                                    @RequestParam LocalDateTime startDate,
+                                                                    @RequestParam LocalDateTime finishDate) {
+        return this.appointmentService.getByAnimalNameAndDate(animalName,startDate,finishDate);
+    }
 
 }

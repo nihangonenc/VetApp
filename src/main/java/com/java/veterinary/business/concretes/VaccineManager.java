@@ -45,7 +45,7 @@ public class VaccineManager implements IVaccineService {
         if (ProtectionExist.isEmpty()) {
             return this.vaccineRepo.save(vaccine);
         }else {
-            throw new RuntimeException("Bu Aşının Koruyuculuğu Henüz Bitmemiş");
+            throw new RuntimeException("The protection of this vaccine has not yet expired.");
         }
 
     }
@@ -54,7 +54,7 @@ public class VaccineManager implements IVaccineService {
     public Vaccine update(Vaccine vaccine) {
         Optional<Vaccine> isVaccineExist = vaccineRepo.findById(vaccine.getId());
         if (isVaccineExist.isEmpty()){
-            throw new RuntimeException("Aşı Sistemde Bulunamadı");
+            throw new RuntimeException("The vaccine could not be found in the system.");
         }else {
             this.get(vaccine.getId());
             return this.vaccineRepo.save(vaccine);
@@ -84,6 +84,19 @@ public class VaccineManager implements IVaccineService {
     @Override  //bir hayvana ait aşıları listeleme                                     DEĞERLENDİRME FORMU 24
     public ResultData<List<VaccineResponse>> getByAnimalId(Long id) {
         List<Vaccine> vaccines = this.vaccineRepo.findByAnimalId(id);
+        List<VaccineResponse> vaccineResponse = vaccines.stream()
+                .map(vaccine -> this.modelMapper.forResponse().map(vaccine, VaccineResponse.class))
+                .collect(Collectors.toList());
+        if (vaccines.isEmpty()) {
+            return ResultHelper.notFound(vaccineResponse);
+        }else {
+            return ResultHelper.success(vaccineResponse);
+        }
+    }
+
+    @Override
+    public ResultData<List<VaccineResponse>> getByAnimalName(String name) {
+        List<Vaccine> vaccines = this.vaccineRepo.findByAnimalNameContainingIgnoreCase(name);
         List<VaccineResponse> vaccineResponse = vaccines.stream()
                 .map(vaccine -> this.modelMapper.forResponse().map(vaccine, VaccineResponse.class))
                 .collect(Collectors.toList());

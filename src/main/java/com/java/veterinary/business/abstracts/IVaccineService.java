@@ -17,5 +17,6 @@ public interface IVaccineService {
     Page<Vaccine> cursor(int page, int pageSize);
     String delete(long id);
     ResultData<List<VaccineResponse>> getByAnimalId(Long id);
+    ResultData<List<VaccineResponse>> getByAnimalName(String name);
     ResultData<List<VaccineResponse>> getByProtectionDateBetween(LocalDate startDate, LocalDate finishDate);
 }

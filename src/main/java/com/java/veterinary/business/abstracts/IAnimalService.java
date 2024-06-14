@@ -15,4 +15,5 @@ public interface IAnimalService {
     String delete(long id);
     List<Animal> getAnimalByName(String name);
     List<Animal> getAnimalByCustomer(Long id);
+    List<Animal> getAnimalByCustomerName(String name);
 }

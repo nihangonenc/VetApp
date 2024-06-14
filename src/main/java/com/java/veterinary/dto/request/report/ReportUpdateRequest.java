@@ -1,4 +1,5 @@
 package com.java.veterinary.dto.request.report;
+import com.java.veterinary.entity.Appointment;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,5 +14,6 @@ public class ReportUpdateRequest {
     private long id;
     private String title;
     private double price;
-    private Long appointmentId;
+    private Appointment appointment;
+
 }
